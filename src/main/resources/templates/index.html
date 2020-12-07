@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>User Manager</title>
+</head>
+<body>
+<div align="center">
+		<div sec:authorize="isAuthenticated()">
+		    Welcome <b><span sec:authentication="name">Username</span></b>
+		    &nbsp;
+		    <i><span sec:authentication="principal.authorities">Roles</span></i>
+		</div>
+
+			<form th:action="@{/logout}" method="post">
+			    <input type="submit" value="Logout" />
+			</form>
+			
+			
+    <h1>User List</h1>
+    
+    <div sec:authorize="hasAnyAuthority('ADMIN')">
+    	<a href="/new">Create New User</a>
+    </div>
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>User ID</th>
+                <th>User Name</th>
+                <th>Actions</th>
+                <th>Todos</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${listUsers}">
+                <td th:text="${user.id}">User ID</td>
+                <td th:text="${user.username}">Username</td>
+                <td>
+                    <div sec:authorize="hasAuthority('ADMIN')">
+  						  <a th:href="@{'/edit/' + ${user.id}}">Edit</a>
+					</div>
+                    <div sec:authorize="hasAuthority('ADMIN')">
+   					 	  <a th:href="@{'/delete/' + ${user.id}}">Delete</a>
+					</div>
+                </td>
+                 
+                 <td>
+                 	<div sec:authorize="hasAuthority('ADMIN')">
+   					 	  <a th:href="@{'/view-todos/' + ${user.id}}">View Todos</a>
+					</div>
+			     </td>
+            </tr>
+        </tbody>
+    </table>
+</div>   
+</body>
+</html>

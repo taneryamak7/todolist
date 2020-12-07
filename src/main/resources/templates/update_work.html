@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Update This Work</title>
+</head>
+<body>
+    <div align="center">
+        <h1>Update This Work</h1>
+        <br />
+        <form action="#" th:action="@{/save-todo}" th:object="${todo}"
+            method="post">
+ 
+            <table border="0" cellpadding="10">
+           	    <tr>
+                    <td>Work Id:</td>
+                    <td><input type="text" th:field="*{id}" readonly="readonly" /></td>
+                      
+                    
+                </tr>
+                <tr>
+                    <td>Work Name:</td>
+                    <td><input type="text" th:field="*{work}" /></td>
+                    
+                </tr>
+                <tr>
+                	<td>Status :</td>
+                	<td><select id="status" name="status" th:field="*{status}" required="required">
+                      
+                        <option value="">Statu Seciniz</option>
+						<option value="BEKLEMEDE">BEKLEMEDE</option>
+						<option value="ERTELENDI">ERTELENDI</option>
+						<option value="TAMAMLANDI">TAMAMLANDI</option>
+                    </select>
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td>Due Date:</td>
+                   <td><input type="date" th:field="*{duedate}" /></td> 
+     
+                </tr>
+                <tr>
+                    <td colspan="2"><button type="submit">Save</button> </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</body>
+</html>

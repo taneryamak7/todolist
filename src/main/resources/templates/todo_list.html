@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8"/>
+<title>User Manager</title>
+</head>
+<body>
+<div align="center">
+		<div sec:authorize="isAuthenticated()">
+		     <b><span sec:authentication="name">Username</span></b>
+		    &nbsp;
+		    <i><span sec:authentication="principal.authorities">Roles</span></i>
+		</div>
+
+			<form th:action="@{/logout}" method="post">
+			    <input type="submit" value="Logout" />
+			</form>
+			
+			
+    <h1>Todo List</h1>
+    
+    <div sec:authorize="hasAnyAuthority('USER','ADMIN')">
+    	<a href="/add-todo">Create New Work</a>
+    </div>
+        
+    <br/><br/>
+    <table border="1" cellpadding="10">
+        <thead>
+            <tr>
+                <th>Work Id</th>
+                <th>Work</th>
+                <th>Username</th>
+                <th>Status</th>
+                <th>Due Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="todo : ${todos}">
+            
+                <td th:text="${todo.id}">Work ID</td>
+                <td th:text="${todo.work}">Work</td>
+                <td th:text="${todo.username}">Username</td>
+                <td th:text="${todo.status}">Status</td>
+                
+                <td th:text="${todo.duedate}">Due Date</td>
+                <td>
+                    <div sec:authorize="hasAnyAuthority('USER','ADMIN')">
+                          <a th:href="@{'/update-todo/' + ${todo.id}}">Update</a>
+                    </div>
+                    <div sec:authorize="hasAnyAuthority('USER','ADMIN')">
+   					 	  <a th:href="@{'/delete-todo/' + ${todo.id}}">Delete</a>
+					</div>
+				
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>   
+</body>
+</html>
